@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # 1. Print a header for the report
  echo "--- SYSTEM INVENTORY REPORT: $(hostname) ---"
  echo "Generated on: $(date)"
