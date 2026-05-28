@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# 1. Checking for old files
+ TARGET_DIR="/tmp"
+ BACKUP_DIR="/backup"
+ LOG_FILE="/var/log/cleanup.log"
+
+# 2. Create backup directory if it doesn't exist
+   mkdir -p "$BACKUP_DIR"
+
+# 3. Find files older than 2 days
+   for FILE in $(find "$TARGET_DIR" -type f -mtime -2 2>/dev/null); do
+
+# 4. Record timestamp for log
+    TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S%z")
+
+# 5. Compress file
+    gzip -c "$FILE" > "${BACKUP_DIR}/$(BASENAME "$FILE").gz"
+ 
+# 6. Cleanup log file
+    echo "${TIMESTAMP} - Compressed and backed up: $FILE" >> "$LOG_FILE"
+
+# 7. Remove original file that is safely backed up
+    rm -f "$FILE"
+
+done
